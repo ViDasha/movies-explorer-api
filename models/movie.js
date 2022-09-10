@@ -5,27 +5,27 @@ const bcrypt = require('bcryptjs');
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
-    require: true,
+    required: true,
   },
   director: {
     type: String,
-    require: true,
+    required: true,
   },
   duration: {
     type: Number,
-    require: true,
+    required: true,
   },
   year: {
     type: String,
-    require: true,
+    required: true,
   },
   description: {
     type: String,
-    require: true,
+    required: true,
   },
   image: {
     type: String,
-    require: true,
+    required: true,
     validate: [
       isURL,
       {
@@ -35,7 +35,7 @@ const movieSchema = new mongoose.Schema({
   },
   trailerLink: {
     type: String,
-    require: true,
+    required: true,
     validate: [
       isURL,
       {
@@ -45,7 +45,7 @@ const movieSchema = new mongoose.Schema({
   },
   thumbnail: {
     type: String,
-    require: true,
+    required: true,
     validate: [
       isURL,
       {
@@ -59,15 +59,17 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
+    type: Number,
     required: true,
+    ref: 'movie',
   },
   nameRU: {
     type: String,
-    require: true,
+    required: true,
   },
   nameEN: {
     type: String,
-    require: true,
+    required: true,
   }
 }, {
   versionKey: false, // You should be aware of the outcome after set to false

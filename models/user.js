@@ -5,13 +5,13 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
     minlength: 2,
     maxlength: 30,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
     validate: [
       isEmail,
@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    require: true,
+    required: true,
     select: false,
   },
 }, {
