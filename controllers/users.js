@@ -4,12 +4,13 @@ const NotFoundError = require('../errors/not-found-error');
 const handleErrors = require('../errors/handle-errors');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
+const { errorMessages, jwtDevSecret } = require('../utils/constants');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        next(new NotFoundError('Пользователь по указанному _id не найден'));
+        next(new NotFoundError(errorMessages.userNotFoundError));
       } else {
         res.send(user);
       }
@@ -27,7 +28,7 @@ module.exports.updateProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError('Пользователь по указанному _id не найден'));
+        return next(new NotFoundError(errorMessages.userNotFoundError));
       }
       res.send(user);
     })
@@ -57,7 +58,7 @@ module.exports.createUser = (req, res, next) => {
     // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new ConflictError('Регистрация по существующему E-mail'));
+        return next(new ConflictError(errorMessages.userConflictError));
       }
       handleErrors(err, res, next);
     });
@@ -70,12 +71,12 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // ошибка аутентификации
       if (!user) {
-        return next(new UnauthorizedError('Неправильные почта или пароль'));
+        return next(new UnauthorizedError(errorMessages.loginError));
       }
       // аутентификация успешна! пользователь в переменной user
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : jwtDevSecret,
         { expiresIn: '7d' },
       );
 

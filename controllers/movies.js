@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const handleErrors = require('../errors/handle-errors');
 const ForbiddenError = require('../errors/forbidden-error');
 const NotFoundError = require('../errors/not-found-error');
+const { errorMessages, messages } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -49,15 +50,15 @@ module.exports.deleteMovie = (req, res, next) => {
     // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundError('Фильм с указанным _id не найден'));
+        return next(new NotFoundError(errorMessages.movieNotFoundError));
       }
 
       if (req.user._id !== movie.owner.toString()) {
-        return next(new ForbiddenError('Вы не можете удалить этот фильм'));
+        return next(new ForbiddenError(errorMessages.movieDeleteError));
       }
 
       return Movie.findByIdAndRemove(req.params.movieId)
-        .then(() => res.send({ message: 'Фильм удален' }));
+        .then(() => res.send({ message: messages.deleteMovie }));
     })
     .catch((err) => handleErrors(err, res, next));
 };

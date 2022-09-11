@@ -1,12 +1,4 @@
-const allowedCors = [
-  'localhost:3000',
-  'http://localhost:3000',
-  'http://vinodarya.movies.nomoredomains.sbs',
-  'https://vinodarya.movies.nomoredomains.sbs',
-  'http://api.vinodarya.movies.nomoredomains.sbs',
-  'https://api.vinodarya.movies.nomoredomains.sbs',
-  'https://localhost:3000',
-];
+const { allowedCors } = require('../utils/constants');
 
 module.exports = ((req, res, next) => {
   const { origin } = req.headers;
