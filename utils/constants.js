@@ -11,6 +11,7 @@ module.exports.errorMessages = {
   userConflictError: 'Регистрация по существующему E-mail',
   wrongPathError: 'Страница не найдена',
   serverError: 'На сервере произошла ошибка',
+  dataError: 'Переданы некорректные данные',
 };
 
 module.exports.messages = {

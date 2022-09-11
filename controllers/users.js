@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
-const handleErrors = require('../errors/handle-errors');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
 const { errorMessages, jwtDevSecret } = require('../utils/constants');
+const { handleErrors } = require('../errors/handle-errors');
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)

@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-const handleErrors = require('../errors/handle-errors');
+const { handleErrors } = require('../errors/handle-errors');
 const ForbiddenError = require('../errors/forbidden-error');
 const NotFoundError = require('../errors/not-found-error');
 const { errorMessages, messages } = require('../utils/constants');
