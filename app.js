@@ -7,10 +7,9 @@ const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
 const rateLimited = require('./middlewares/limited');
-const { nameMongoDB, errorMessages } = require('./utils/constants');
+const { nameMongoDB } = require('./utils/constants');
 const routes = require('./routes');
 const defaultError = require('./errors/default-error');
-
 
 const { PORT = 3000 } = process.env;
 
@@ -30,7 +29,7 @@ app.use(requestLogger);
 
 app.use('/', rateLimited);
 
-routes(app);
+app.use(routes);
 
 app.use(errorLogger);
 app.use(errors());

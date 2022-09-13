@@ -41,13 +41,12 @@ module.exports.createMovie = (req, res, next) => {
     movieId,
     owner: ownerId,
   })
-  .then((movie) => res.send(movie))
-  .catch((err) => handleErrors(err, res, next));
+    .then((movie) => res.send(movie))
+    .catch((err) => handleErrors(err, res, next));
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId) // удаление фильма по Id
-    // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
         return next(new NotFoundError(errorMessages.movieNotFoundError));
@@ -62,4 +61,3 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => handleErrors(err, res, next));
 };
-

@@ -16,7 +16,7 @@ module.exports.errorMessages = {
 
 module.exports.messages = {
   deleteMovie: 'Фильм удален',
-}
+};
 
 module.exports.jwtDevSecret = 'dev-secret';
 

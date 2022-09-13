@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
@@ -28,9 +31,10 @@ module.exports.updateProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError(errorMessages.userNotFoundError));
+        next(new NotFoundError(errorMessages.userNotFoundError));
+      } else {
+        res.send(user);
       }
-      res.send(user);
     })
     .catch((err) => handleErrors(err, res, next));
 };
@@ -55,12 +59,12 @@ module.exports.createUser = (req, res, next) => {
       email: user.email,
     }))
     // данные не записались, вернём ошибку
-    // eslint-disable-next-line consistent-return
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new ConflictError(errorMessages.userConflictError));
+        next(new ConflictError(errorMessages.userConflictError));
+      } else {
+        handleErrors(err, res, next);
       }
-      handleErrors(err, res, next);
     });
 };
 
@@ -71,17 +75,18 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       // ошибка аутентификации
       if (!user) {
-        return next(new UnauthorizedError(errorMessages.loginError));
-      }
+        next(new UnauthorizedError(errorMessages.loginError));
+      } else {
       // аутентификация успешна! пользователь в переменной user
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : jwtDevSecret,
-        { expiresIn: '7d' },
-      );
+        const token = jwt.sign(
+          { _id: user._id },
+          NODE_ENV === 'production' ? JWT_SECRET : jwtDevSecret,
+          { expiresIn: '7d' },
+        );
 
-      // вернём токен
-      res.send({ token });
+        // вернём токен
+        res.send({ token });
+      }
     })
     .catch((err) => next(err));
 };

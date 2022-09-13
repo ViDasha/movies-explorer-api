@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
-const bcrypt = require('bcryptjs');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -70,7 +69,7 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     required: true,
-  }
+  },
 }, {
   versionKey: false, // You should be aware of the outcome after set to false
 });
