@@ -25,7 +25,7 @@ module.exports.getUser = (req, res, next) => {
 module.exports.updateProfile = (req, res, next) => {
   const { name, email } = req.body;
 
-  User.findOneAndUpdate(
+  User.findByIdAndUpdate(
     req.user._id,
     { name, email },
     { new: true, runValidators: true },
@@ -37,7 +37,13 @@ module.exports.updateProfile = (req, res, next) => {
         res.send(user);
       }
     })
-    .catch((err) => handleErrors(err, res, next));
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError(errorMessages.userConflictError));
+      } else {
+        handleErrors(err, res, next);
+      }
+    });
 };
 
 module.exports.createUser = (req, res, next) => {

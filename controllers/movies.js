@@ -5,7 +5,9 @@ const NotFoundError = require('../errors/not-found-error');
 const { errorMessages, messages } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+
+  Movie.find({ owner })
     .then((movies) => res.send(movies))
     .catch((err) => handleErrors(err, res, next));
 };
@@ -57,7 +59,8 @@ module.exports.deleteMovie = (req, res, next) => {
       }
 
       return Movie.findByIdAndRemove(req.params.movieId)
-        .then(() => res.send({ message: messages.deleteMovie }));
+        .then(() => res.send({ message: messages.deleteMovie }))
+        .catch(next);
     })
     .catch((err) => handleErrors(err, res, next));
 };
