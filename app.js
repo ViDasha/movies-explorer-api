@@ -7,7 +7,7 @@ const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
 const { errorLogger, requestLogger } = require('./middlewares/logger');
 const rateLimited = require('./middlewares/limited');
-const { nameMongoDB } = require('./utils/constants');
+const { mongoURL } = require('./config');
 const routes = require('./routes');
 const defaultError = require('./errors/default-error');
 
@@ -15,7 +15,7 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-mongoose.connect(nameMongoDB, {
+mongoose.connect(mongoURL, {
   useNewUrlParser: true,
 });
 

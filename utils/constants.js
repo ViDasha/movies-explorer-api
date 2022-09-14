@@ -18,8 +18,6 @@ module.exports.messages = {
   deleteMovie: 'Фильм удален',
 };
 
-module.exports.jwtDevSecret = 'dev-secret';
-
 module.exports.allowedCors = [
   'localhost:3000',
   'http://localhost:3000',

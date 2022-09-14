@@ -2,11 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
+const { jwtDevSecret } = require('../config');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
 const UnauthorizedError = require('../errors/unauthorized-error');
-const { errorMessages, jwtDevSecret } = require('../utils/constants');
+const { errorMessages } = require('../utils/constants');
 const { handleErrors } = require('../errors/handle-errors');
 
 module.exports.getUser = (req, res, next) => {
